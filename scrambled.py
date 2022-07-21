@@ -47,9 +47,4 @@ else:
                                             result[f'Case #{l+1}'].append(dct[d])
                 for i in result: print(f'{i}: {len(result[i])}')
             except Exception as e: print(e)
-    except Exception as e: print(e)      
-            
-    
-    
-    
-    
+    except Exception as e: print(e)    
