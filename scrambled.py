@@ -4,7 +4,7 @@ Created on Wed Jul 20 10:57:07 2022
 
 @author: Home
 """
-import sys
+import sys, os
 
 usage = 'Usage:\n'+'/scrmabled-strings --dictionary [PATH TO DICTIONARY FILE] --input [PATH TO INPUT FILE]'
 
@@ -24,6 +24,11 @@ def chk_dict(dictionary):
     if longestWord['lenght'] > 105:
         raise ValueError(f"The word '{longestWord['word']}' in line {longestWord['line']+1} is more than 105 letters")
      
+def chk_size(dct,inpFile):
+    if os.path.getsize(dct)+os.path.getsize(inpFile) > 1073741824: 
+        raise ValueError('The task can not use more than 1Gb RAM')
+    
+
 if len(sys.argv) ==1:
     print(usage)
 elif sys.argv[1] != '--dictionary' and sys.argv[3] != '--input':
@@ -31,6 +36,7 @@ elif sys.argv[1] != '--dictionary' and sys.argv[3] != '--input':
 else:
     try:
         with open(sys.argv[2],'r') as dct, open(sys.argv[4], 'r') as strings:
+            chk_size(sys.argv[2],sys.argv[4])
             strings = [i.strip('\n') for i in strings.readlines()]
             dct = [i.strip('\n') for i in dct.readlines()]
             chk_dict(dct)
@@ -47,4 +53,4 @@ else:
                                             result[f'Case #{l+1}'].append(dct[d])
                 for i in result: print(f'{i}: {len(result[i])}')
             except Exception as e: print(e)
-    except Exception as e: print(e)    
+    except Exception as e: print(e)
